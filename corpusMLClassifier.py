@@ -4,6 +4,12 @@ import math
 from pandas import DataFrame
 import numpy as np
 import re
+from sklearn.metrics import confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
+from sklearn.cross_validation import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import Perceptron
 
 
 # handful of helper functions to build tf, idf, weight (no custom weights) and word counts in DSI
@@ -83,18 +89,18 @@ with open('cs1_DSI_JSON.txt') as data_file:
 data_frame = DataFrame(np.array(word_weight), columns=lines)
 
 # ---------------------------------------------------
-from sklearn.cross_validation import train_test_split
 
-trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.4)
+
+trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.5)
 # ---------------------------------------------------
-from sklearn.naive_bayes import MultinomialNB
+
 clf = MultinomialNB()
 clf.fit(trainX, trainY)
 MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
 clf_pred = clf.predict(testX)
 
 # ---------------------------------------------------
-from sklearn.linear_model import Perceptron
+
 nlf = Perceptron()
 nlf.fit(trainX, trainY)
 Perceptron(penalty=None, alpha=0.0001, fit_intercept=True, n_iter=50, shuffle=True,
@@ -102,27 +108,41 @@ Perceptron(penalty=None, alpha=0.0001, fit_intercept=True, n_iter=50, shuffle=Tr
 nlf_pred = nlf.predict(testX)
 
 # ---------------------------------------------------
-from sklearn.ensemble import RandomForestClassifier
+
 rlf = RandomForestClassifier()
 rlf.fit(trainX, trainY)
 RandomForestClassifier(n_estimators=500)
 rlf_pred = rlf.predict(testX)
 # ---------------------------------------------------
-from sklearn import metrics
+
 c_score = metrics.accuracy_score(testY, clf_pred)
+print("MultinomialNB Score")
 print("accuracy:   %0.3f" % c_score)
 
-
+cm = confusion_matrix(testY, clf_pred)
+np.set_printoptions(precision=2)
+print('Confusion matrix, without normalization')
+print(cm)
+# ----------------------------------------------------
 n_score = metrics.accuracy_score(testY, nlf_pred)
+print("Perceptron Score")
 print("accuracy:   %0.3f" % n_score)
 
+# Compute confusion matrix
+cm = confusion_matrix(testY, nlf_pred)
+np.set_printoptions(precision=2)
+print('Confusion matrix, without normalization')
+print(cm)
+
+
 r_score = metrics.accuracy_score(testY, rlf_pred)
+print("RandomForestClassifier Score")
 print("accuracy:   %0.3f" % r_score)
 # ---------------------------------------------------
-from sklearn.metrics import confusion_matrix
+
 
 # Compute confusion matrix
-cm = confusion_matrix(testY, clf_pred)
+cm = confusion_matrix(testY, rlf_pred)
 np.set_printoptions(precision=2)
 print('Confusion matrix, without normalization')
 print(cm)
