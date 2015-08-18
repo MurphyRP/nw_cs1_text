@@ -30,6 +30,13 @@ You will need a few external libraries
 ```
 from pandas import DataFrame
 import numpy as np
+import re
+from sklearn.metrics import confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
+from sklearn.cross_validation import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import Perceptron
 
 ```
 
