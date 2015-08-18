@@ -21,7 +21,7 @@ file, it is only for looking at specific outputs
 
 * Class can be any grouping - does not have to be binary
 ```
-{"key_terms": {"noun_phrases": ["term"]}, "extracted": "text of DSE", "class": "Hillary"}
+{"key_terms": {"noun_phrases": ["term"]}, "extracted": "text of DSI", "class": "Hillary"}
 ```
 ### Dependencies
 
