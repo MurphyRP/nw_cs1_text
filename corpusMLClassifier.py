@@ -91,7 +91,7 @@ data_frame = DataFrame(np.array(word_weight), columns=lines)
 # ---------------------------------------------------
 
 
-trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.2)
+trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.3)
 # ---------------------------------------------------
 
 clf = MultinomialNB()
@@ -111,7 +111,7 @@ nlf_pred = nlf.predict(testX)
 
 rlf = RandomForestClassifier()
 rlf.fit(trainX, trainY)
-RandomForestClassifier(n_estimators=500)
+RandomForestClassifier(n_estimators=1000)
 rlf_pred = rlf.predict(testX)
 # ---------------------------------------------------
 
