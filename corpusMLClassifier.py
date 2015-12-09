@@ -91,19 +91,19 @@ data_frame = DataFrame(np.array(word_weight), columns=lines)
 # ---------------------------------------------------
 
 
-trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.3)
+trainX, testX, trainY, testY = train_test_split(data_frame, class_list_Y, test_size=0.4)
 # ---------------------------------------------------
 
 clf = MultinomialNB()
 clf.fit(trainX, trainY)
-MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+MultinomialNB(alpha=1.0, class_prior=None, fit_prior=False)
 clf_pred = clf.predict(testX)
 
 # ---------------------------------------------------
 
 nlf = Perceptron()
 nlf.fit(trainX, trainY)
-Perceptron(penalty=None, alpha=0.0001, fit_intercept=True, n_iter=50, shuffle=True,
+Perceptron(penalty=None, alpha=0.0001, fit_intercept=True, n_iter=500, shuffle=True,
            verbose=0, eta0=1.0, n_jobs=1, random_state=0, class_weight=None, warm_start=False)
 nlf_pred = nlf.predict(testX)
 
@@ -139,7 +139,7 @@ r_score = metrics.accuracy_score(testY, rlf_pred)
 print("RandomForestClassifier Score")
 print("accuracy:   %0.3f" % r_score)
 # ---------------------------------------------------
-
+print(rlf_pred)
 
 # Compute confusion matrix
 cm = confusion_matrix(testY, rlf_pred)
@@ -147,4 +147,15 @@ np.set_printoptions(precision=2)
 print('Confusion matrix, without normalization')
 print(cm)
 
+#--------------------------------------------------------------
+
+rlf_p = RandomForestClassifier()
+rlf_p.fit(trainX, trainY)
+RandomForestClassifier(n_estimators=1000)
+rlf_pred_p = rlf.predict_proba(testX)
+
+#TODO: implement method accepting a string and returning a term vector which can be passed to the classifier for probability
+# work
+
+print(rlf_pred_p)
 
